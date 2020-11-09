@@ -1,37 +1,63 @@
 class UsersController < ApplicationController
 
-  # GET: /users_controllers
-  get "/users_controllers" do
-    erb :"/users_controllers/index.html"
+  get '/users/:slug' do
+    @user = User.find_by_slug(params[:slug])
+    erb :'users/dashboard'
   end
 
-  # GET: /users_controllers/new
-  get "/users_controllers/new" do
-    erb :"/users_controllers/new.html"
+  get '/login' do
+    if !logged_in?
+      erb :'users/login'
+    else
+      redirect to '/protests'
+    end
   end
 
-  # POST: /users_controllers
-  post "/users_controllers" do
-    redirect "/users_controllers"
+  post '/login' do
+    user = User.find_by(:username => params[:username])
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect to "/users/#{params[:username]}"
+    else 
+      redirect to '/signup'
+    end
   end
 
-  # GET: /users_controllers/5
-  get "/users_controllers/:id" do
-    erb :"/users_controllers/show.html"
+  post '/logout' do
+    if logged_in?
+        session.destroy
+        redirect to '/'
+    else
+        redirect to '/'
+    end
   end
 
-  # GET: /users_controllers/5/edit
-  get "/users_controllers/:id/edit" do
-    erb :"/users_controllers/edit.html"
+  get '/signup' do
+    if !logged_in?
+      erb :'users/signup', locals: {message: "You gotta sign up for an account before posting"}
+    else
+      redirect to 'protests'
+    end
   end
 
-  # PATCH: /users_controllers/5
-  patch "/users_controllers/:id" do
-    redirect "/users_controllers/:id"
+  post '/signup' do
+    if params[:username] == "" || params[:email] == "" || params[:password] == ""
+      redirect to '/signup'
+    elsif params[:username] == User.find_by(:username => params[:username]).username
+      redirect to '/usernameerror'
+    else
+      @user = User.create(:username => params[:username], :email => params[:email], :password => params[:password])
+      session[:user_id] = @user.id
+      redirect to '/protests'
+    end
   end
 
-  # DELETE: /users_controllers/5/delete
-  delete "/users_controllers/:id/delete" do
-    redirect "/users_controllers"
+  get '/usernameerror' do
+    erb :'errors/usernameerror'
+  end
+
+  get '/dashboard' do
+    @user = User.find_by_slug(params[:slug])
+    erb :'users/dashboard'
   end
 end

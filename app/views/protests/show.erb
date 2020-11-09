@@ -1,0 +1,12 @@
+<h1>Here are all the protests that comrades have posted!</h1>
+
+<ul>
+  <% @protests.each do |p| %>
+    <li><%= p.name %></li>
+    <% end %>
+</ul>
+
+<br>
+<form action="/logout" method="post">
+Logout?
+<input type="submit" name="logout" placeholder="logout">
