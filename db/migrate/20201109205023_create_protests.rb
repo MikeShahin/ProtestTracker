@@ -4,6 +4,8 @@ class CreateProtests < ActiveRecord::Migration[6.0]
       t.string :name
       t.string :location
       t.string :description
+      t.string :date
+      t.string :time
       t.integer :user_id
 
       t.timestamps null: false
