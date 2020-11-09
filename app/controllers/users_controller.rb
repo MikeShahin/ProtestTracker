@@ -64,6 +64,7 @@ class UsersController < ApplicationController
   get '/dashboard' do
     @user = session[:user_id]
     if logged_in?
+      # @protest = Protest.find_by(:user_id => @user.to_i)
       erb :'users/dashboard'
     else 
       redirect to '/login'

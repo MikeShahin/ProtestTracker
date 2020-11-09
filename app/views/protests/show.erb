@@ -2,11 +2,14 @@
 
 <ul>
   <% @protests.each do |p| %>
-    <li><%= p.name %></li>
+    <li><a href="/protests/<%=p.id%>"><%= p.name %></a></li>
     <% end %>
 </ul>
 
 <br>
+<br>
+<a href="/protests/new">Submit a new protest</a>
+<br>
 <form action="/logout" method="post">
 Logout?
-<input type="submit" name="logout" placeholder="logout">
+<input type="submit" name="logout" value="logout">
