@@ -50,10 +50,10 @@ class UsersController < ApplicationController
   end
 
   post '/signup' do
-    if params[:username] == "" || params[:email] == ""
+    if params[:username] == "" || params[:email] == "" || params[:password] == ""
       flash[:error] = "Please correctly fill out all fields."
       redirect to '/signup'
-    elsif User.where(:username => params[:username]).exists?#params[:username] == User.find_by(:username => params[:username]).username
+    elsif User.where(:username => params[:username]).exists?
       flash[:error] = "Sorry, this name is already taken, please choose a different one"
       redirect to '/signup'
     else
