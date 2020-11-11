@@ -12,7 +12,7 @@ class ApplicationController < Sinatra::Base
   end
   
   get "/" do
-    @protests = Protest.all
+    @user = User.find_by(id: session[:user_id])
     erb :welcome
   end
 
