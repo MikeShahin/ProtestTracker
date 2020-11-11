@@ -1,20 +1,24 @@
+<head>
+<link rel="stylesheet" href="stylesheets/two.css" />
+</head>
+
 <h3>Edit Event:</h3>
 
 <form action="/protests/<%=@protest.id%>" method="post">
     <input type="hidden" name="_method" id="hidden" value="PATCH">
     <label for="name">Protest name: </label>
     <br>
-    <input type="text" name="name">
+    <input type="text" name="name" placeholder="name">
     <br>
     <br>
     <label for="location">Location: </label>
     <br>
-    <input type="text" name="location">
+    <input type="text" name="location" placeholder="location">
     <br>
     <br>
     <label for="description">Description: </label>
     <br>
-    <textarea name="description" id="desc" cols="40" rows="5">Enter Description Here</textarea>
+    <textarea name="description" id="desc" cols="40" rows="5" placeholder="Enter description here"></textarea>
     <br>
     <br>
     <label for="date">Date: </label>
@@ -24,11 +28,11 @@
     <br>
     <label for="time">Time: </label>
     <br>
-    <input type="text" name="time">
+    <input type="time" name="time">
     <br>
     <br>
-    <input type="submit" value="submit">
+    <input type="submit" value="submit" class="submit">
     <br>
     <br>
-    <a href="/">Click here to go back home</a>
+    <a href="/"><img src="/images/home.png"></a>
 </form>

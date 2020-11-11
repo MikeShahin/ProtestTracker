@@ -1,15 +1,39 @@
-<h1>Here are all the protests that comrades have posted!</h1>
+<h2>All submited protests!</h2>
 
-<ul>
-  <% @protests.each do |p| %>
-    <li><a href="/protests/<%=p.id%>"><%= p.name %></a></li>
+<div class="protests">
+  <h3>Click on an event for more info!</h3>
+  <table>
+      <tr>
+        <th>Date</th>
+        <th>Name</th>
+        <th>Location</th>
+      </tr>
+    <% @protests.each do |p| %>
+      <tr>
+        <th><%=p.date%></th>
+        <th><a href="/protests/<%=p.id%>"><%= p.name %></a></th>
+        <th><%=p.location%></th>
+
+      </tr>
     <% end %>
-</ul>
+  </table>
+</div>
 
 <br>
-<br>
-<a href="/protests/new">Submit a new protest</a>
 <br>
 <form action="/logout" method="post">
-Logout?
-<input type="submit" name="logout" value="logout">
+
+  <% if logged_in? %>
+      <a href="/protests/new"><img src="/images/new.png"></a>
+      <br>
+      <br>
+      <form action="/logout" method="post">
+          <input type="submit" name="logout" class="logout">
+      </form>
+
+      <% else %>
+        <a href="/login"><img src="/images/login.png"></a>
+        <br>
+        <br>
+        <a href="/signup"><img src="/images/signup.png"></a>
+  <% end %>

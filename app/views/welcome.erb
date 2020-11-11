@@ -1,22 +1,22 @@
 <div class="container">
   <header><img src="https://i.imgur.com/Sg4nncX.jpg" class="img-responsive main-image"></header>
-  <div class="col-md-8 col-md-offset-2">
-    <h2>Protest Tracker: All events listed here:</h2>
+  <div class="select">
+    <h2>Protest Tracker: Track Protests Globally!</h2>
 
-    <a href="/protests">Click here to see all the protests</a>
+    <a href="/protests"><img src="/images/protests.png"></a>
     <br>
     <br>
-    <a href="/signup">Click here to sign up!</a>
+    <a href="/login"><img src="/images/login.png"></a>
     <br>
     <br>
-    <a href="/login">Click here to login and post your own protest!</a>
+    <a href="/signup"><img src="/images/signup.png"></a>
     <br>
     <br>
     
-    <form action="/logout" method="post">
-  Logout?
-  <input type="submit" name="logout" value="logout">
-</form>
-
+  <% if logged_in? %>
+      <form action="/logout" method="post">
+          <input type="submit" name="logout" class="logout">
+      </form>
+  <% end %>
 
 </div>

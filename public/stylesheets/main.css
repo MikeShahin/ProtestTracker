@@ -1,4 +1,23 @@
 @media screen {
+
+  .error{
+  width: 600px;
+  padding: 5px;
+  font-weight: bold;
+  margin: 20px;
+ 
+  color:rgb(252, 8, 8);
+}
+
+.alert{
+  width: 600px;
+  padding: 5px;
+  font-weight: bold;
+  margin: 20px;
+ 
+  color:rgb(8, 252, 8);
+}
+
   /* --- Reset Styles --- */
   * {
     list-style: none;
@@ -13,14 +32,14 @@
 
   /* --- Welcome Page Styles --- */
   body {
-    background-color: lightblue;
+    background-color: rgb(26, 76, 100);
     color: #333;
     font-family: Sans-Serif;
     line-height: 18px;
   }
 
   .wrapper {
-    background: #fff;
+    background: rgb(235, 232, 232);
     -moz-box-shadow: 0 0 10px rgba(0,0,0,.3);
     -webkit-box-shadow: 0 0 10px rgba(0,0,0,.3);
     box-shadow: 0 0 10px rgba(0,0,0,.3);

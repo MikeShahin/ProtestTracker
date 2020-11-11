@@ -21,10 +21,14 @@ class UsersController < ApplicationController
     user = User.find_by(:username => params[:username])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
+      flash[:alert] = "Logged in!"
       # redirect to "/users/#{params[:username]}"
-      redirect to "/dashboard"
+      # redirect to "/dashboard"
+      redirect to "/protests"
+
     else 
-      redirect to '/signup'
+      flash[:error] = "Sorry, try again"
+      redirect to '/login'
     end
   end
 
@@ -39,7 +43,7 @@ class UsersController < ApplicationController
 
   get '/signup' do
     if !logged_in?
-      erb :'users/signup', locals: {message: "You gotta sign up for an account before posting"}
+      erb :'users/signup'
     else
       redirect to 'protests'
     end
@@ -47,9 +51,11 @@ class UsersController < ApplicationController
 
   post '/signup' do
     if params[:username] == "" || params[:email] == "" || params[:password] == ""
+      flash[:error] = "Please correctly fill out all fields."
       redirect to '/signup'
     elsif params[:username] == User.find_by(:username => params[:username]).username
-      redirect to '/usernameerror'
+      flash[:error] = "Sorry, this name is already taken, please choose a different one"
+      redirect to '/signup'
     else
       @user = User.create(:username => params[:username], :email => params[:email], :password => params[:password])
       session[:user_id] = @user.id
@@ -57,14 +63,9 @@ class UsersController < ApplicationController
     end
   end
 
-  get '/usernameerror' do
-    erb :'errors/usernameerror'
-  end
-
   get '/dashboard' do
     @user = session[:user_id]
     if logged_in?
-      # @protest = Protest.find_by(:user_id => @user.to_i)
       erb :'users/dashboard'
     else 
       redirect to '/login'

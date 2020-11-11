@@ -1,7 +1,7 @@
 class ProtestsController < ApplicationController
 
   get "/protests" do
-    @protests = Protest.all
+    @protests = Protest.all.sort_by {|p| p.date }
     erb :"/protests/show"
   end
 
@@ -16,12 +16,14 @@ class ProtestsController < ApplicationController
   post '/protests' do
     if logged_in?
       if params[:name] == "" || params[:location] == "" || params[:description] == "" || params[:date] == "" || params[:time] == ""
+        flash[:error] = "Please fill out all the fields"
         redirect to '/protests/new'
       else
         @protest = current_user.protests.build(name: params[:name], location: params[:location], description: params[:description], date: params[:date], time: params[:time])
         if @protest.save
           redirect to "/protests/#{@protest.id}"
         else
+          flash[:error] = "Sorry something went wrong! Try again"
           redirect to '/protests/new'
         end
       end
@@ -31,12 +33,12 @@ class ProtestsController < ApplicationController
   end
 
   get '/protests/:id' do
-    if logged_in?
+    # if logged_in?
       @protest = Protest.find_by_id(params[:id])
       erb :'protests/show_protest'
-    else
-      redirect to 'login'
-    end
+    # else
+    #   redirect to 'login'
+    # end
   end
 
   get '/protests/:id/edit' do
@@ -55,6 +57,7 @@ class ProtestsController < ApplicationController
   patch '/protests/:id' do
     if logged_in?
       if params[:name] == "" || params[:location] == "" || params[:description] == "" || params[:date] == "" || params[:time] == ""
+        flash[:error] = "Please fill out all fields"
         redirect to "/protests/#{params[:id]}/edit"
       else
         @protest = Protest.find_by_id(params[:id])

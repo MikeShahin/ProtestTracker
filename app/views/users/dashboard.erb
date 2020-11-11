@@ -2,6 +2,13 @@
 
 <a href="/protests/new">Click here to create a new protest!</a>
 <br>
+<br>
 <a href="/protests">Click here to see all the protests</a>
+<br>
+<br>
 
-
+<% if logged_in? %>
+    <form action="/logout" method="post">
+        <input type="submit" name="logout" class="logout">
+    </form>
+<% end %>

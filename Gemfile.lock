@@ -53,6 +53,8 @@ GEM
     sinatra-activerecord (2.0.21)
       activerecord (>= 4.1)
       sinatra (>= 1.0)
+    sinatra-flash (0.3.0)
+      sinatra (>= 1.0.0)
     sqlite3 (1.4.2)
     thin (1.7.2)
       daemons (~> 1.0, >= 1.0.9)
@@ -65,7 +67,7 @@ GEM
       ripl-multi_line (>= 0.2.4)
       ripl-rack (>= 0.2.0)
       sinatra (>= 1.2.1)
-    tzinfo (1.2.7)
+    tzinfo (1.2.8)
       thread_safe (~> 0.1)
     zeitwerk (2.4.1)
 
@@ -81,6 +83,7 @@ DEPENDENCIES
   shotgun
   sinatra
   sinatra-activerecord
+  sinatra-flash
   sqlite3
   thin
   tux

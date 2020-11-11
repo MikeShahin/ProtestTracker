@@ -1,8 +1,25 @@
 <h2><%= @protest.name %></h2>
 
-<a href="/protests/<%=@protest.id%>/edit">Edit Event</a>
+<h4>Date: <%=@protest.date %> <br> Time: <%=@protest.time %> <br> Location: <%=@protest.location %></h4> 
+<br>
+<h4>Description:</h4>
+<p><%=@protest.description %></p>
 
-<form action="/protests/<%=@protest.id%>/delete" method="POST">
-    <input type="hidden" name="_method" value="delete" id="hidden">
-    <input type="submit" value="Delete Event">
-</form>
+<% if logged_in? && @protest.user == current_user %>
+    <a href="/protests"><img src="/images/back.png"></a>
+    <br>
+    <br>
+    <a href="/protests/<%=@protest.id%>/edit"><img src="/images/edit.png"></a>
+    <br>
+    <br>
+    <a href=""><form action="/protests/<%=@protest.id%>/delete" method="POST">
+        <input type="hidden" name="_method" value="delete" id="hidden">
+        <input type="submit"  class="delete">
+    </form></a>
+    <br>
+
+<% else %>
+    <a href="/protests"><img src="/images/back.png"></a>
+    <br>
+    <br>
+<% end %>
