@@ -2,11 +2,11 @@
   <header><img src="https://i.imgur.com/Sg4nncX.jpg" class="img-responsive main-image"></header>
   <div class="select">
     <% if logged_in? %>
-      <h3>Welcome Back <%= @user.username %></h3>
+      <h3>Welcome Back <%= @user.username %>!</h3>
     <% end %>
-
+    <br>
     <h2>Protest Tracker: Track Protests Globally!</h2>
-    
+
     <% if !logged_in? %>
         <a href="/protests"><img src="/images/protests.png"></a>
         <br>
@@ -21,6 +21,9 @@
 
     <% if logged_in? %>
         <form action="/logout" method="post">
+            <a href="/dashboard"><img src="/images/dashboard.png"></a>
+            <br>
+            <br>
             <a href="/protests"><img src="/images/protests.png"></a>
             <br>
             <br>

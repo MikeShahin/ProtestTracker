@@ -1,12 +1,37 @@
-<h3>Welcome to your dashboard <%= @user %></h3>
-
-<a href="/protests/new">Click here to create a new protest!</a>
-<br>
-<br>
-<a href="/protests">Click here to see all the protests</a>
+<h3>Welcome to your dashboard <%= @user.username %></h3>
 <br>
 <br>
 
+<% if @protests.empty? %>
+    <h3>To get started click new to post an event or click protests to see all the events our users have posted</h3>
+<% else %>
+<div class="protests">
+  <h3>Events you've posted:</h3>
+  <table>
+      <tr>
+        <th>Date</th>
+        <th>Name</th>
+        <th>Location</th>
+      </tr>
+    <% @protests.each do |p| %>
+      <tr>
+        <th><%=p.date%></th>
+        <th><a href="/protests/<%=p.id%>"><%= p.name %></a></th>
+        <th><%=p.location%></th>
+
+      </tr>
+    <% end %>
+  </table>
+</div>
+<% end %>
+<br>
+<br>
+<a href="/protests/new"><img src="/images/new.png"></a>
+<br>
+<br>
+<a href="/protests"><img src="/images/protests.png"></a>
+<br>
+<br>
 <% if logged_in? %>
     <form action="/logout" method="post">
         <input type="submit" name="logout" class="logout">

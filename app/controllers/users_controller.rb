@@ -1,14 +1,5 @@
 class UsersController < ApplicationController
 
-  get '/users/:slug' do
-    @user = User.find_by_slug(params[:slug])
-    if logged_in?
-      erb :'users/dashboard'
-    else
-      redirect to '/login'
-    end
-  end
-
   get '/login' do
     if !logged_in?
       erb :'users/login'
@@ -18,16 +9,23 @@ class UsersController < ApplicationController
   end
 
   post '/login' do
-    user = User.find_by(:username => params[:username])
-    if user && user.authenticate(params[:password])
-      session[:user_id] = user.id
-      flash[:alert] = "Logged in!"
-      # redirect to "/users/#{params[:username]}"
-      # redirect to "/dashboard"
-      redirect to "/protests"
-
-    else 
-      flash[:error] = "Sorry, try again"
+  if empty_fields?
+    flash[:error] = "Please fill out all fields "
+    redirect to '/login'
+    elsif user_exists?
+      user = User.find_by(:username => params[:username])
+      if user && user.authenticate(params[:password])
+        session[:user_id] = user.id
+        redirect to "/dashboard"
+      elsif user.password != params[:password]
+        flash[:error] = "Wrong Password"
+        redirect to '/login'
+      else
+        flash[:error] = "Sorry, I don't know what went wrong, please try again"
+        redirect to '/login'
+      end
+    else
+      flash[:error] = "That account name doesn't exist, please double check, or sign up for a new account"
       redirect to '/login'
     end
   end
@@ -50,21 +48,22 @@ class UsersController < ApplicationController
   end
 
   post '/signup' do
-    if params[:username] == "" || params[:email] == "" || params[:password] == ""
+    if empty_fields?
       flash[:error] = "Please correctly fill out all fields."
       redirect to '/signup'
-    elsif User.where(:username => params[:username]).exists?
+    elsif user_exists?
       flash[:error] = "Sorry, this name is already taken, please choose a different one"
       redirect to '/signup'
     else
       @user = User.create(:username => params[:username], :email => params[:email], :password => params[:password])
       session[:user_id] = @user.id
-      redirect to '/protests'
+      redirect to '/dashboard'
     end
   end
 
   get '/dashboard' do
-    @user = session[:user_id]
+    @user = User.find_by(id: session[:user_id])
+    @protests = Protest.where(:user_id => session[:user_id])
     if logged_in?
       erb :'users/dashboard'
     else 

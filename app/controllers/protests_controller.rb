@@ -15,7 +15,7 @@ class ProtestsController < ApplicationController
 
   post '/protests' do
     if logged_in?
-      if params[:name] == "" || params[:location] == "" || params[:description] == "" || params[:date] == "" || params[:time] == ""
+      if empty_fields?
         flash[:error] = "Please fill out all the fields"
         redirect to '/protests/new'
       else
@@ -33,12 +33,8 @@ class ProtestsController < ApplicationController
   end
 
   get '/protests/:id' do
-    # if logged_in?
       @protest = Protest.find_by_id(params[:id])
       erb :'protests/show_protest'
-    # else
-    #   redirect to 'login'
-    # end
   end
 
   get '/protests/:id/edit' do
@@ -47,16 +43,18 @@ class ProtestsController < ApplicationController
       if @protest && @protest.user == current_user
         erb :'protests/edit'
       else
+        flash[:error] = "Sorry, you do not have permission to edit this event"
         redirect to '/protests'
       end
     else
+      flash[:error] = "Please login to edit this event"
       redirect to '/login'
     end
   end
 
   patch '/protests/:id' do
     if logged_in?
-      if params[:name] == "" || params[:location] == "" || params[:description] == "" || params[:date] == "" || params[:time] == ""
+      if empty_fields?
         flash[:error] = "Please fill out all fields"
         redirect to "/protests/#{params[:id]}/edit"
       else
@@ -65,6 +63,7 @@ class ProtestsController < ApplicationController
           if @protest.update(name: params[:name], location: params[:location], description: params[:description], date: params[:date], time: params[:time])
             redirect to "/protests/#{@protest.id}"
           else
+            flash[:error] = "Sorry, something went wrong, please try again"
             redirect to "/protests/#{@protest.id}/edit"
           end
         else

@@ -29,6 +29,14 @@ class ApplicationController < Sinatra::Base
       !!current_user
     end
 
+    def user_exists?
+      User.where(:username => params[:username]).exists?
+    end
+
+    def empty_fields?
+      (params[:username] && params[:username] == "") || (params[:email] && params[:email] == "") || (params[:password] && params[:password] == "") || (params[:name] && params[:name] == "") || (params[:location] && params[:location] == "") || (params[:description] && params[:description] == "") || (params[:date] && params[:date] == "") || (params[:time] && params[:time] == "")
+    end
+
     def current_user
       @current_user ||=User.find_by(id: session[:user_id]) if session[:user_id]
     end
