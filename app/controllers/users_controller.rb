@@ -31,19 +31,15 @@ class UsersController < ApplicationController
   end
 
   post '/logout' do
-    if logged_in?
         session.destroy
         redirect to '/'
-    else
-        redirect to '/'
-    end
   end
 
   get '/signup' do
     if !logged_in?
       erb :'users/signup'
     else
-      redirect to 'protests'
+      redirect to '/dashboard'
     end
   end
 
